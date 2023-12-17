@@ -37,22 +37,29 @@ class FlickRecycleViewAdapter extends RecyclerView.Adapter<FlickRecycleViewAdapt
 
     @Override
     public void onBindViewHolder(@NonNull FlickrImageViewHolder holder, int position) {
-        // Called by the layout manager when it wants new data in an existing row
-        Photo photoItem = photoList.get(position);
-        Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle() + "-->" + position);
-        Picasso.with(context).load(photoItem.getImage())
-                .error(R.drawable.placeholder)
-                .placeholder(R.drawable.placeholder)
-                .into(holder.thumbnail);
+        // not found data
+        if (photoList  == null || (photoList.size() == 0)) {
+            holder.thumbnail.setImageResource(R.drawable.placeholder);
+            holder.title.setText(R.string.empty_photo);
+        }
+        else {
+            // Called by the layout manager when it wants new data in an existing row
+            Photo photoItem = photoList.get(position);
+            Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle() + "-->" + position);
+            Picasso.with(context).load(photoItem.getImage())
+                    .error(R.drawable.placeholder)
+                    .placeholder(R.drawable.placeholder)
+                    .into(holder.thumbnail);
 
-        holder.title.setText(photoItem.getTitle());
+            holder.title.setText(photoItem.getTitle());
+        }
 
     }
 
     @Override
     public int getItemCount() {
         Log.d(TAG, "getItemCount: called");
-        return ((photoList!=null) && (photoList.size() != 0) ? photoList.size() : 0);
+        return ((photoList!=null) && (photoList.size() != 0) ? photoList.size() : 1); // default item 1: item not found
     }
     void loadNewData(List<Photo> newPhotos) {
         photoList = newPhotos;

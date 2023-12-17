@@ -53,6 +53,7 @@ public class GetFlickrJsonData extends AsyncTask<String,Void,List<Photo>> implem
         return  photoList;
     }
 
+    // error
     void executeOnSameThread(String searchCriteria) {
         Log.d(TAG, "executeOnSameThread starts");
         runningOnSameThread = true;
